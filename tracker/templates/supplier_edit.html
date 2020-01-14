@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}<title>Supplier | Edit Supplier</title>{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col s12">
+                <h4 class="branded-title">Edit Supplier</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <form method="POST" action="{{ url_for('supplier.supplier_edit', supplier_id=supplier.id) }}">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input name="supplier_name" type="text" class="validate" value="{{ supplier.supplier_name }}" required>
+                    <label for="supplier_name">Supplier Name</label>
+                </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light" type="submit">Submit<i class="material-icons right">send</i></button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

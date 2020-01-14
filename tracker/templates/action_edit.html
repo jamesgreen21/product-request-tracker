@@ -1,0 +1,201 @@
+{% extends 'base.html' %} {% block title %}
+<title>Request Tracker | Actions</title>{% endblock %} {% block content %} 
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col s12">
+            <h5 class="branded-title hide-on-med-and-up">Edit Action - {{ action.action_post.title }}</h5>
+            <h4 class="branded-title hide-on-small-only">Edit Action - {{ action.action_post.title }}</h4>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('action.action_edit', action_id=action.id) }}">
+        <div class="row">
+            <div class="input-field col s12 l6">
+                <select class="stage" name="stage" value="{{ action.stage }}" required>
+                    {% if action.stage == 1 %}<option value="1" selected>Health & Safety</option>{% else %}<option value="1">Health & Safety</option>{% endif %}
+                    {% if action.stage == 2 %}<option value="2" selected>Quality</option>{% else %}<option value="2">Quality</option>{% endif %}
+                    {% if action.stage == 3 %}<option value="3" selected>Cagefill</option>{% else %}<option value="3">Cagefill</option>{% endif %}
+                    {% if action.stage == 4 %}<option value="4" selected>Restaurant Impact</option>{% else %}<option value="4">Restaurant Impact</option>{% endif %}
+                </select>
+                <label>Stage</label>
+            </div>
+            <div class="input-field col s12 l6">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Upload File</span>
+                        <input type="file" id="image_file" name="image_file">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" id="image" name="image" value="{{ action.image }}">
+                    </div>
+                </div>
+            </div>
+            <div class="input-field col s12">
+                <textarea id="content" name="content" class="materialize-textarea" required>{{ action.content }}</textarea>
+                <label for="content">Details</label>
+            </div>
+        </div>
+
+        <!--Pallet Type-->
+        <div class="row branded-blue pallet-type">
+            <div class="col s12">
+                <h6 class="center text-white">Pallet Type</h6>
+            </div>
+        </div>
+        <div class="row pallet-type">
+            <div class="input-field col s12">
+                <select id="ex_layer_type" class="materialSelect" name="ex_layer_type">
+                    <option value="1">Standard Pallet</option>
+                    <option value="2">Euro Pallet</option>
+                </select>
+                <label>Current Pallet Type</label>
+            </div>
+            <div class="input-field col s12">
+                <select id="layer_type" class="materialSelect" name="layer_type">
+                    <option value="1">Standard Pallet</option>
+                    <option value="2">Euro Pallet</option>
+                </select>
+                <label>Proposed Pallet Type</label>
+            </div>
+        </div>
+
+        <!--Existing Product-->
+        <div class="row branded-blue existing-product-config">
+            <div class="col s12">
+                <h6 class="center text-white">Existing Configuration  <span class="existing-product">(Leave Blank for New Products)</span></h6>
+            </div>
+        </div>
+        <div class="row existing-product-config">
+            <div class="input-field col s12 l4">
+                <input id="ex_case_per_layer" name="ex_case_per_layer" type="number" onclick="multiplyInput();" onKeyDown="multiplyInput();" value="{{ action.ex_case_per_layer }}" class="validate">
+                <label for="ex_case_per_layer">Cases Per Layer</label>
+            </div>
+            <div class="input-field col s12 l4">
+                <input id="ex_total_layers" name="ex_total_layers" type="number" onclick="multiplyInput();" onKeyDown="multiplyInput();" value="{{ action.ex_total_layers }}" class="validate">
+                <label for="ex_total_layers">Total Layers</label>
+            </div>
+            <div class="input-field col s12 l4">
+                <input id="ex_total_cases" name="ex_total_cases" type="number" class="validate" value="{{ action.ex_total_cases }}">
+                <label for="ex_total_cases">Total Layers</label>
+            </div>
+        </div>
+
+        <!--New Product-->
+        <div class="row branded-blue product-config">
+            <div class="col s12">
+                <h6 class="center text-white">Proposed Configuration</h6>
+            </div>
+        </div>
+        <div class="row product-config">
+            <div class="input-field col s12 l4">
+                <input id="case_per_layer" name="case_per_layer" type="number" onclick="multiplyInput();" onKeyDown="multiplyInput();" class="validate" value="{{ action.case_per_layer }}" required>
+                <label for="case_per_layer">Cases Per Layer</label>
+            </div>
+            <div class="input-field col s12 l4">
+                <input id="total_layers" name="total_layers" type="number" onclick="multiplyInput();" onKeyDown="multiplyInput();" value="{{ action.total_layers }}" class="validate" required>
+                <label for="total_layers">Total Layers</label>
+            </div>
+            <div class="input-field col s12 l4">
+                <input id="total_cases" name="total_cases" type="number" class="validate" value="{{ action.total_cases }}">
+                <label for="total_cases">Total Layers</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <button class="btn waves-effect waves-light" type="submit">Submit<i class="material-icons right">send</i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
+{% block script %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.materialSelect').formSelect();
+        $('.materialSelect').on('contentChanged', function() {
+            $(this).formSelect();
+        });
+
+        if ($(".stage").val() == 1 ) {
+            $(".product-config").hide();
+            $(".existing-product-config").hide();
+            $(".pallet-type").hide();
+        } else if ($(".stage").val() == 3 || $(".stage").val() == 4) {
+            $(".pallet-type").hide();
+        }
+    });
+
+    $(".stage").change(function() {
+            var selected_option = $(this).children("option:selected").val();
+
+            // Select option update for Health & Safety
+            if (selected_option == 1) {
+                $(".product-config").hide();
+                $(".existing-product-config").hide();
+                $(".pallet-type").hide();
+
+                $('#layer_type').val('').prop('required', false);
+                $('#case_per_layer').val('').prop('required', false);
+                $('#total_layers').val('').prop('required', false);
+                $('#ex_layer_type').val('').prop('required', false);
+            }
+
+            // Select option update for Quality
+            else if (selected_option == 2) {
+                $(".product-config").show();
+                $(".existing-product-config").show();
+                $(".pallet-type").show();
+
+                $('#layer_type').val('').prop('required', true);
+                $('#ex_layer_type').val('').prop('required', true);
+                $('#case_per_layer').prop('required', true);
+                $('#total_layers').prop('required', true);
+            }
+
+            // Select option update for Cagefill
+            else if (selected_option == 3) {
+                $(".product-config").show();
+                $(".existing-product-config").show();
+                $(".pallet-type").hide();
+
+                $('#layer_type').val('').prop('required', false);
+                $('#ex_layer_type').val('').prop('required', false);
+                $('#case_per_layer').prop('required', true);
+                $('#total_layers').prop('required', true);
+
+            }
+
+            // Select option update for Restaurant Impact
+            else {
+                $(".product-config").show();
+                $(".existing-product-config").show();
+
+                $('#layer_type').val('').prop('required', false);
+                $('#ex_layer_type').val('').prop('required', false);
+                $('#case_per_layer').prop('required', true);
+                $('#total_layers').prop('required', true);
+            }
+        });
+    
+    function multiplyInput() {
+        var value1 = $('#ex_case_per_layer').val()
+        var value2 = $('#ex_total_layers').val()
+        total = value1 * value2
+
+        $('#ex_total_cases').val(total)
+
+        var value1 = $('#case_per_layer').val()
+        var value2 = $('#total_layers').val()
+        total = value1 * value2
+
+        $('#total_cases').val(total)
+    }
+</script>
+
+{% endblock script %}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> {% block title %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Navbar Dropdown -->
+    <ul id="dropdown1" class="dropdown-content">
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+        {% endif %}
+    </ul>
+
+    <!-- Navbar -->
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper branded-blue">
+                <a href="{{ url_for('main.index') }}" class="brand-logo">Logo</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.add_request') }}">New</a></li>
+                    <li><a href="{{ url_for('action.action_outstanding') }}">Actions</a></li>
+                    <li><a href="{{ url_for('supplier.suppliers') }}">Suppliers</a></li>
+                    <li><a href="#">Achives</a></li>
+                    <!-- Dropdown Trigger -->
+                    <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">
+                        {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Login/Register{% endif %}
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Navbar Mobile -->
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+        <li><a href="{{ url_for('main.add_request') }}">New</a></li>
+        <li><a href="{{ url_for('action.action_outstanding') }}">Actions</a></li>
+        <li><a href="{{ url_for('supplier.suppliers') }}">Suppliers</a></li>
+        <li><a href="#">Achives</a></li>
+
+        <!--Authentification check-->
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+        {% endif %}
+    </ul>
+
+    <!----- Messages ----->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="card-panel center flash-message {{ category }}">
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!----- Page content ----->
+    {% block content %} {% endblock %}
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        //  Materialize - initialize
+            $('.sidenav').sidenav();
+            $(".dropdown-trigger").dropdown();
+            $('select').formSelect();
+            $('.collapsible').collapsible();
+            $('.materialboxed').materialbox();
+            $('.fixed-action-btn').floatingActionButton();
+            $('.tooltipped').tooltip();
+            $('.modal').modal();
+
+            //  Number formatting for thousand comma
+            $( ".numberFormat" ).each(function() {
+                var val = parseInt($(this).text());
+                if (val > 10) {
+                    val = numberWithCommas(val);
+                    console.log(val)
+                    $(this).text(val);
+                }
+            });
+        });
+
+        //  Materialize - Floating button
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+                direction: 'left'
+            });
+        });
+
+        // ----- Pass Post ID to the Side Nav on "Action" button click
+        $('.post_id').click(function() {
+            var post_id = $(this).attr('data_id');
+
+        });
+
+        //  Number formatting for thousand comma
+       function numberWithCommas(val) {
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+    </script>
+
+{% block script %} {% endblock %}
+
+</body>
+
+</html>

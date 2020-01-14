@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block title %}<title>Request Tracker | New Request</title>{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col s12">
+                <h4 class="branded-title">New Request</h4>
+            </div>
+        </div>
+    </div>    
+
+    <div class="container">
+        <form method="POST" action="{{ url_for('main.add_request') }}">
+            <div class="row">
+                <h5 class="center">General Information</h5>
+                <div class="input-field col s12 l6">
+                    <input id="title" name="title" type="text" class="validate" required>
+                    <label for="title">Request Title</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <textarea id="content" name="content" class="materialize-textarea" required></textarea>
+                    <label for="content">Details</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input id="contact_name" name="contact_name" type="text" class="validate" required>
+                    <label for="contact_name">Contact</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <select id="supplier_id" name="supplier_id" required>
+                        <option value="" disabled selected>Select Supplier</option>
+                        {% for supplier in suppliers %}
+                        <option value="{{ supplier.id }}">{{ supplier.supplier_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Supplier</label>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <h5 class="center">Product Information</h5>
+                <div class="input-field col s12 l6">
+                    <input id="product_number" name="product_number" type="number" class="validate" required>
+                    <label for="product_number">Number</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input id="product_name" name="product_name" type="text" class="validate" required>
+                    <label for="product_name">Name</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <select id="product_type_id" name="product_type_id" required>
+                        <option value="" disabled selected>Select Product Type</option>
+                        {% for product_type in product_types %}
+                        <option value="{{ product_type.id }}">{{ product_type.type }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Product Type</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <p>
+                        <label>
+                            <input class="new_product" name="new_product" type="checkbox" />
+                            <span>New Product?</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
+            <div id="existing_product" class="row existing-product">
+                <h6 class="center">Existing Details</h6>
+                <div class="input-field col s12 l6">
+                    <input class="existing_detail" id="ex_product_length" name="ex_product_length" type="number" class="validate" required>
+                    <label for="ex_product_length">Length</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input class="existing_detail" id="ex_product_width" name="ex_product_width" type="number"  min="0" class="validate" required>
+                    <label for="ex_product_width">Width</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input class="existing_detail" id="ex_product_height" name="ex_product_height" type="number" min="0" class="validate" required>
+                    <label for="ex_product_height">Height</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input class="existing_detail" id="ex_product_weight" name="ex_product_weight" type="number" min="0" step=".01" class="validate" required>
+                    <label for="ex_product_weight">Wieght</label>
+                </div>
+                <div class="input-field col s12 l6">
+                     <input class="existing_detail" id="ex_units_per_case" name="ex_units_per_case" type="number" min="0" step=".01" class="validate" required>
+                    <label for="ex_units_per_case">Units Per Case</label>
+                </div>
+                <div class="input-field col s12 l6">
+                     <input class="existing_detail" id="ex_inners_per_case" name="ex_inners_per_case" type="number" min="0" class="validate" required>
+                    <label for="ex_inners_per_case">Inners Per Case</label>
+                </div>
+                <div class="input-field col s12">
+                   <p>
+                        <label>
+                            <input name="ex_case_orientation" type="checkbox" />
+                            <span>Can the case orientate?</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
+            <div class="row new-product">
+                <h6 class="center">Proposed Details</h6>
+                <div class="input-field col s12 l6">
+                    <input id="product_length" name="product_length" type="number" min="0" class="validate" required>
+                    <label for="product_length">Length</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input id="product_width" name="product_width" type="number"  min="0" class="validate" required>
+                    <label for="product_width">Width</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input id="product_height" name="product_height" type="number" min="0" class="validate" required>
+                    <label for="product_height">Height</label>
+                </div>
+                <div class="input-field col s12 l6">
+                    <input id="product_weight" name="product_weight" type="number" min="0" step=".01" class="validate" required>
+                    <label for="product_weight">Wieght</label>
+                </div>
+                <div class="input-field col s12 l6">
+                     <input id="units_per_case" name="units_per_case" type="number" min="0" step=".01" class="validate" required>
+                    <label for="units_per_case">Units Per Case</label>
+                </div>
+                <div class="input-field col s12 l6">
+                     <input id="inners_per_case" name="inners_per_case" type="number" min="0" class="validate" required>
+                    <label for="inners_per_case">Inners Per Case</label>
+                </div>
+                <div class="input-field col s12">
+                   <p>
+                        <label>
+                            <input name="case_orientation" type="checkbox" />
+                            <span>Can the case orientate?</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn waves-effect waves-light" type="submit">Submit<i class="material-icons right">send</i></button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script type="text/javascript">
+    $(".new_product").change(function(){
+
+        if ($(this).prop('checked')) {
+            $("#existing_product").slideUp();
+            $(".existing_detail").each(function(){
+                $(this).val(0)
+            })
+        } else {
+            $("#existing_product").slideDown();
+            $(".existing_detail").each(function(){
+                $(this).val("")
+            })
+        } 
+    });
+</script>
+
+{% endblock script %}

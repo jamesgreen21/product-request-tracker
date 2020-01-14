@@ -1,0 +1,276 @@
+{% extends 'base.html' %} 
+{% block title %}<title>Request Tracker | Output Form</title>{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col s12">
+            <h4 class="branded-title">Output Form - {{ post.title }}</h4>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col s12 branded-blue">
+            <h6 class="center text-white">NPI OUTPUT FORM</h6>
+        </div>
+        <div class="co s12">
+            <table class="centered branded-table">
+                <tbody>
+                    <tr>
+                        <td>Product Name</td>
+                        <td>{{ post.product_name }}</td>
+                        <td>Product Number</td>
+                        <td>{{ post.product_number }}</td>
+                        <td>Supplier</td>
+                        <td>{{ post.supplier.supplier_name }}</td>
+                        <td>Outcome</td>
+                        <td>{{ post.complete }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s3">
+            <h6 class="center branded-blue text-white">CASE</h6>
+            <table class="centered branded-product-table output-form highlight">
+                <thead>
+                    <tr>
+                        <th>Case Information</th>
+                        <th>Current</th>
+                        <th>Proposed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Length:</td>
+                        <td>{{ post.ex_product_length }}</td>
+                        <td>{{ post.product_length }}</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                        <td>Width:</td>
+                        <td>{{ post.ex_product_width }}</td>
+                        <td>{{ post.product_width }}</td>
+                    </tr>
+                    <tr>
+                        <td>Height:</td>
+                        <td>{{ post.ex_product_height }}</td>
+                        <td>{{ post.product_height }}</td>
+                    </tr>
+                    <tr>
+                        <td>Weight:</td>
+                        <td>{{ post.ex_product_weight }} KG</td>
+                        <td>{{ post.product_weight }} KG</td>
+                    </tr>
+                    <tr>
+                        <td>Units Per Case:</td>
+                        <td>{{ post.ex_units_per_case }}</td>
+                        <td>{{ post.units_per_case }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+         <div class="col s3">
+            <h6 class="center branded-blue text-white">PALLET FILL</h6>
+            {% if not quality.case_per_layer %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Details</span>
+            </div>
+
+            {% else %}
+            <table class="centered branded-product-table output-form highlight">
+                <thead>
+                    <tr>
+                        <th>Descriptions</th>
+                        <th>Current</th>
+                        <th>Proposed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cases per Layer</td>
+                        <td>{{ quality.ex_case_per_layer }}</td>
+                        <td>{{ quality.case_per_layer }}</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                        <td>Layers Per Pallet</td>
+                        <td>{{ quality.ex_total_layers }}</td>
+                        <td>{{ quality.total_layers }}</td>
+                    </tr>
+                    <tr>
+                        <td class="branded-blue text-white" colspan="3">PALLET EFFICIENCY</td>
+                    </tr>
+                    <tr>
+                        <td>Cases Per Pallet</td>
+                        <td>{{ quality.ex_total_cases }}</td>
+                        <td>{{ quality.total_cases }}</td>
+                    </tr>
+                    <tr>
+                        <td>Units Per Pallet</td>
+                        <td class="numberFormat">{{ quality.ex_total_cases * post.ex_units_per_case }}</td>
+                        <td class="numberFormat">{{ quality.total_cases * post.units_per_case }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <div class="col s3">
+            <h6 class="center branded-blue text-white">CAGE FILL</h6>
+
+            {% if not cagefill.case_per_layer %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Details</span>
+            </div>
+
+            {% else %}
+            <table class="centered branded-product-table output-form highlight">
+                <thead>
+                    <tr>
+                        <th>Descriptions</th>
+                        <th>Current</th>
+                        <th>Proposed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cases per Layer</td>
+                        <td>{{ cagefill.ex_case_per_layer }}</td>
+                        <td>{{ cagefill.case_per_layer }}</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                        <td>Layers Per Cage</td>
+                        <td>{{ cagefill.ex_total_layers }}</td>
+                        <td>{{ cagefill.total_layers }}</td>
+                    </tr>
+                    <tr>
+                        <td class="branded-blue text-white" colspan="3">PALLET EFFICIENCY</td>
+                    </tr>
+                    <tr>
+                        <td>Cases Per Cage</td>
+                        <td>{{ cagefill.ex_total_cases }}</td>
+                        <td>{{ cagefill.total_cases }}</td>
+                    </tr>
+                    <tr>
+                        <td>Units Per Cage</td>
+                        <td class="numberFormat">{{ cagefill.ex_total_cases * post.ex_units_per_case }}</td>
+                        <td class="numberFormat">{{ cagefill.total_cases * post.units_per_case }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <div class="col s3">
+            <h6 class="center branded-blue text-white">RESTAURANT IMPACT</h6>
+
+            {% if not restaurant_impact.case_per_layer %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Details</span>
+            </div>
+
+            {% else %}
+            <table class="centered branded-product-table output-form highlight">
+                <thead>
+                    <tr>
+                        <th>Descriptions</th>
+                        <th>Current</th>
+                        <th>Proposed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cases per Layer</td>
+                        <td>{{ restaurant_impact.ex_case_per_layer }}</td>
+                        <td>{{ restaurant_impact.case_per_layer }}</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                        <td>Layers Per Shelf</td>
+                        <td>{{ restaurant_impact.ex_total_layers }}</td>
+                        <td>{{ restaurant_impact.total_layers }}</td>
+                    </tr>
+                    <tr>
+                        <td class="branded-blue text-white" colspan="3">PALLET EFFICIENCY</td>
+                    </tr>
+                    <tr>
+                        <td>Cases Per Shelf</td>
+                        <td>{{ restaurant_impact.ex_total_cases }}</td>
+                        <td>{{ restaurant_impact.total_cases }}</td>
+                    </tr>
+                    <tr>
+                        <td>Units Per Shelf</td>
+                        <td class="numberFormat">{{ restaurant_impact.ex_total_cases * post.ex_units_per_case }}</td>
+                        <td class="numberFormat">{{ restaurant_impact.total_cases * post.units_per_case }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s3">
+            <h6 class="center branded-blue text-white">APPROVAL</h6>
+            
+            {% if not health_and_safety.feedback or health_and_safety.feedback == None or not quality.feedback or quality.feedback == None %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Details</span>
+            </div>
+
+            {% else %}
+            <table class="centered branded-table highlight">
+                <tbody>
+                    <tr>
+                        <td>{{ health_and_safety.feedback }}</td>
+                        <td>{{ health_and_safety.approval }}</td>
+                    </tr>
+                    <tr>
+                    </tr>
+                        <td>{{ quality.feedback }}</td>
+                        <td>{{ quality.approval }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <div class="col s3 center">
+
+            {% if not quality.image or quality.image == "" %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Image Uploaded</span>
+            </div>
+            {% else%}
+            <img class="responsive-img output-image" src="{{ url_for('static', filename=quality.image) }}" alt="{{ url_for('static', filename=quality.image) }}">
+            {% endif %}
+        </div>
+        <div class="col s3 center">
+
+            {% if not cagefill.image or cagefill.image == "" %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Image Uploaded</span>
+            </div>
+            {% else%}
+            <img class="responsive-img output-image" src="{{ url_for('static', filename=cagefill.image) }}" alt="{{ url_for('static', filename=cagefill.image) }}">
+            {% endif %}
+        </div>
+        <div class="col s3 center">
+
+            {% if not restaurant_impact.image or restaurant_impact.image == "" %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Image Uploaded</span>
+            </div>
+            {% else%}
+            <img class="responsive-img output-image" src="{{ url_for('static', filename=restaurant_impact.image) }}" alt="{{ url_for('static', filename=restaurant_impact.image) }}">
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

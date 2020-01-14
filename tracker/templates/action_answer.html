@@ -1,0 +1,174 @@
+{% extends 'base.html' %} {% block title %}
+<title>Request Tracker | Actions</title>{% endblock %} {% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col s12">
+            {% if action.stage == 1 %}
+            <h4 class="branded-title"><i class="material-icons">add_circle_outline</i> Health & Safety</h4>
+            {% elif action.stage == 2 %}
+            <h4 class="branded-title"><i class="material-icons">search</i> Quality</h4>
+            {% elif action.stage == 3 %}
+            <h4 class="branded-title"><i class="material-icons">shopping_cart</i> Cagefill</h4>
+            {% else %}
+            <h4 class="branded-title"><i class="material-icons">restaurant</i> Restaurant Impact</h4>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row branded-blue">
+        <div class="col s12">
+            <h6 class="center text-white">Approval:</h6>
+        </div>
+    </div>
+
+    <!--Approval Form -->
+
+    <form method="POST" action="{{ url_for('action.action_answer', action_id=action.id) }}">
+        <div class="row">
+            <div class="input-field col s12">
+                <select id="approval" name="approval" value="{{ action.approval }}" required>
+                    {% if action.approval == None %}<option value="" disabled selected>Select Outcome</option>{% else %}<option value="" disabled>Select Outcome</option>{% endif %}
+                    {% if action.approval == 1 %}<option value="1" selected>Rejected</option>{% else %}<option value="1">Rejected</option>{% endif %}
+                    {% if action.approval == 2 %}<option value="2" selected>Further Information</option>{% else %}<option value="2">Further Information</option>{% endif %}
+                    {% if action.approval == 3 %}<option value="3" selected>Approved</option>{% else %}<option value="3">Approved</option>{% endif %}
+                </select>
+                <label>Aproval</label>
+            </div>
+            <div class="input-field col s12">
+                <textarea id="feedback" name="feedback" class="materialize-textarea" required>{% if action.feedback != None %}{{ action.feedback }}{% endif %}</textarea>
+                <label for="feedback">Approval Feedback</label>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="submit">Submit<i class="material-icons right">send</i></button>
+        </div>
+    </form>
+
+    <!--Action Details -->
+
+    <div class="row branded-blue">
+        <div class="col s12">
+            <h6 class="center text-white">Action Details: </h6>
+        </div>
+    </div>
+
+    {% if action.stage == 1 %}
+    <div class="row">
+        <div class="col s12 l6">
+            <table class="centered branded-table highlight">
+                <thead class="text-white">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>{{ action.action_post.product_name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Product Supplier</b></td>
+                        <td>{{ action.action_post.supplier.supplier_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Action Creator</b></td>
+                        <td>{{ action.action_post.published_by.username }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Action Date</b></td>
+                        <td>{{ action.created_on.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Action Details</b></td>
+                        <td>{{ action.content }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s12 l6 action-container">
+            {% if action.image == "" %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Image Uploaded</span>
+            </div>
+            {% else%}
+            <img class="materialboxed responsive-img" src="{{ url_for('static', filename=action.image) }}" alt="{{ url_for('static', filename=action.image) }}"> {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col s12 l4">
+            <table class="centered branded-table highlight">
+                <thead class="text-white">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>{{ action.action_post.product_name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Product Supplier</b></td>
+                        <td>{{ action.action_post.supplier.supplier_name }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Action Creator</b></td>
+                        <td>{{ action.action_post.published_by.username }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Action Date</b></td>
+                        <td>{{ action.created_on.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Action Details</b></td>
+                        <td>{{ action.content }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s12 l4 action-container">
+            <table class="centered branded-product-table highlight">
+                <thead class="text-white">
+                    <tr>
+                        <th>Description</th>
+                        <th>Current</th>
+                        <th>Proposed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cases per Layer</td>
+                        <td>{{ action.ex_case_per_layer }}</td>
+                        <td>{{ action.case_per_layer }}</td>
+                    </tr>
+                    <tr>
+                        <td>Layers Per Stack</td>
+                        <td>{{ action.ex_total_layers }}</td>
+                        <td>{{ action.total_layers }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Cases</td>
+                        <td>{{ action.ex_total_cases }}</td>
+                        <td>{{ action.total_cases }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Units</td>
+                        <td class="numberFormat">{{ action.ex_total_cases * action.action_post.ex_units_per_case }}</td>
+                        <td class="numberFormat">{{ action.total_cases * action.action_post.units_per_case }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s12 l4 action-container">
+            {% if action.image == "" %}
+            <div class="card-panel center">
+                <span class="blue-text text-darken-2">No Image Uploaded</span>
+            </div>
+            {% else%}
+            <img class="materialboxed responsive-img" src="{{ url_for('static', filename=action.image) }}" alt="{{ url_for('static', filename=action.image) }}">
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock content %}
