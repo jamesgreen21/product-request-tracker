@@ -7,7 +7,7 @@
 
         <div class="row valign-wrapper branded-side-padding">
             <div class="col s12 l8">
-                <h4 class="branded-title">Request Tracker</h4>
+                <h4 class="branded-title">Archived Request</h4>
             </div>
             <div class="col hide-on-med-and-down l1 center">
                 <h6>Health & Safety</h6>
@@ -36,8 +36,6 @@
                         <img class="product-img border-branded-blue" src="{{ url_for('static', filename='media/img/approved.png') }}" alt="Approved">
                         {% elif post.status == "Rejected" %}
                         <img class="product-img border-branded-blue" src="{{ url_for('static', filename='media/img/rejected.png') }}" alt="Rejected">
-                        {% else %}
-                        <img class="product-img border-branded-blue" src="{{ url_for('static', filename=post.product_type) }}" alt="{{ url_for('static', filename=post.product_type) }}">
                         {% endif %}
                     </div>
                     
@@ -46,20 +44,12 @@
                         <a class='dropdown-trigger btn' href='#' data-target='dropdown{{ post.id + 1 }}' data_id="{{ post.title }}">Action</a>
                         <!-- Dropdown Structure -->
                         <ul id='dropdown{{ post.id + 1 }}' class='dropdown-content post-dropdown'>
-                            {% if current_user.user_type in (1,2,3,4) %}
-                                <li><a href="{{ url_for('action.post_actions', post_id=post.id) }}"><i class="material-icons">call_missed_outgoing</i>Go To Action</a></li>
-                            {% else %}
-                                <li><a href="{{ url_for('action.post_actions', post_id=post.id) }}"><i class="material-icons">format_list_numbered</i>All Actions</a></li>
-                                {% if post.status == None %}
-                                    <li><a href="{{ url_for('action.action_add', post_id=post.id) }}"><i class="material-icons">add</i>Add Action</a></li>
-                                    <li><a href="{{ url_for('main.edit_request', post_id=post.id) }}"><i class="material-icons">edit</i>Manage</a></li>
-                                    <li><a class="modal-trigger" href="#modal{{ post.id }}"><i class="material-icons">check</i>Complete</a></li>
-                                {% else %}
-                                    <li><a href="{{ url_for('main.archive_request', post_id=post.id) }}"><i class="material-icons">archive</i>Archive</a></li>
-                                {% endif %}
+                            {% if current_user.user_type not in (1,2,3,4) %}
+                                <li><a class="modal-trigger" href="#modal{{ post.id }}"><i class="material-icons">archive</i>Move Back</a></li>
                             {% endif %}
                             <li><a href="{{ url_for('main.output_form', post_id=post.id) }}"><i class="material-icons">assessment</i>Output</a></li>
                         </ul>
+                        
                     </div>
 
                     <!--Product Title-->
@@ -253,13 +243,10 @@
             </li>
             <div id="modal{{ post.id }}" class="modal">
                 <div class="modal-content">
-                    <h4>Approval</h4>
-                    <p>Please select from the following two options:</p>
-                    <a class="waves-effect waves-light btn" href="{{ url_for('main.complete_request', post_id=post.id, status='Rejected') }}"><i class="material-icons">error_outline</i>Reject</a>
-                    <a class="waves-effect waves-light btn" href="{{ url_for('main.complete_request', post_id=post.id, status='Approved') }}"><i class="material-icons">check_circle</i>Approve</a>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+                    <h4>Archive</h4>
+                    <p>Are you sure you want to move back to the Live Tracker?</p>
+                    <a class="waves-effect waves-light btn" href="{{ url_for('main.unarchive_request', post_id=post.id) }}">Yes</a>
+                    <a class="waves-effect waves-light btn" href="{{ url_for('main.archives') }}">No</a>
                 </div>
             </div>
             {% endfor %}

@@ -5,7 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from tracker.extensions import db
-from tracker.models import User, Posts, Suppliers, ProductType, Actions
+from tracker.models import User, Posts, Suppliers, Actions
 
 action = Blueprint('action', __name__)
 IMAGE_UPLOADS = '/home/ubuntu/environment/tracker/static/uploads/img'
@@ -91,7 +91,7 @@ def action_edit(action_id):
             if allowed_image(image_file.filename):
                 filename = secure_filename(image_file.filename)
                 image_file.save(os.path.join(IMAGE_UPLOADS, filename))
-                action["image"] = "uploads/img/" + filename
+                action.image = "uploads/img/" + filename
 
             else:
                 flash("That image extension is not allowed!", 'error')

@@ -34,7 +34,7 @@
                     <li><a href="{{ url_for('main.add_request') }}">New</a></li>
                     <li><a href="{{ url_for('action.action_outstanding') }}">Actions</a></li>
                     <li><a href="{{ url_for('supplier.suppliers') }}">Suppliers</a></li>
-                    <li><a href="#">Achives</a></li>
+                    <li><a href="{{ url_for('main.archives') }}">Archives</a></li>
                     <!-- Dropdown Trigger -->
                     <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">
                         {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Login/Register{% endif %}
@@ -51,7 +51,7 @@
         <li><a href="{{ url_for('main.add_request') }}">New</a></li>
         <li><a href="{{ url_for('action.action_outstanding') }}">Actions</a></li>
         <li><a href="{{ url_for('supplier.suppliers') }}">Suppliers</a></li>
-        <li><a href="#">Achives</a></li>
+        <li><a href="{{ url_for('main.archives') }}">Archives</a></li>
 
         <!--Authentification check-->
         {% if current_user.is_authenticated %}

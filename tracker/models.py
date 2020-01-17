@@ -43,23 +43,6 @@ class Suppliers(db.Model):
     )
 
 
-class ProductType(db.Model):
-    """
-    Create a model for the Product Type table (tracker_post: one-to-many)
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), nullable=False)
-    chamber = db.Column(db.String(50), nullable=False)
-    image = db.Column(db.String(50), nullable=False)
-
-    products = db.relationship(
-        'Posts',
-        foreign_keys='Posts.product_type_id',
-        backref='product_type',
-        lazy=True
-    )
-
-
 class Posts(db.Model):
     """
     The Post model is the master list of all Product Requests. The Action
@@ -80,8 +63,7 @@ class Posts(db.Model):
     new_product = db.Column(db.Boolean, default=False)
     product_number = db.Column(db.Integer)
     product_name = db.Column(db.String(80), nullable=False)
-    product_type_id = db.Column(db.Integer, db.ForeignKey('product_type.id'),
-        nullable=False)
+    product_type = db.Column(db.String(50), nullable=False)
     product_length = db.Column(db.Integer)
     product_width = db.Column(db.Integer)
     product_height =db.Column(db.Integer)

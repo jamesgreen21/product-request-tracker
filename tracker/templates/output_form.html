@@ -13,10 +13,15 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col s12 branded-blue">
+        <div class="col s12 hide-on-large-only">
+            <div class="card-panel valign-wrapper output-unavailable">
+                <span class="text-darken-2">Only available on a Desktop or Laptop (Screen width of 1200px or higher)</span>
+            </div>
+        </div>
+        <div class="col hide-on-med-and-down l12 branded-blue">
             <h6 class="center text-white">NPI OUTPUT FORM</h6>
         </div>
-        <div class="co s12">
+        <div class="col hide-on-med-and-down l12">
             <table class="centered branded-table">
                 <tbody>
                     <tr>
@@ -34,8 +39,10 @@
         </div>
     </div>
 
+    <!---- Stages Row ---->
+
     <div class="row">
-        <div class="col s3">
+        <div class="col hide-on-med-and-down l3">
             <h6 class="center branded-blue text-white">CASE</h6>
             <table class="centered branded-product-table output-form highlight">
                 <thead>
@@ -75,7 +82,7 @@
                 </tbody>
             </table>
         </div>
-         <div class="col s3">
+         <div class="col hide-on-med-and-down l3">
             <h6 class="center branded-blue text-white">PALLET FILL</h6>
             {% if not quality.case_per_layer %}
             <div class="card-panel center">
@@ -120,7 +127,7 @@
             </table>
             {% endif %}
         </div>
-        <div class="col s3">
+        <div class="col hide-on-med-and-down l3">
             <h6 class="center branded-blue text-white">CAGE FILL</h6>
 
             {% if not cagefill.case_per_layer %}
@@ -166,7 +173,7 @@
             </table>
             {% endif %}
         </div>
-        <div class="col s3">
+        <div class="col hide-on-med-and-down l3">
             <h6 class="center branded-blue text-white">RESTAURANT IMPACT</h6>
 
             {% if not restaurant_impact.case_per_layer %}
@@ -214,59 +221,87 @@
         </div>
     </div>
 
+    <!---- Approval and Image Row ---->
+    
     <div class="row">
-        <div class="col s3">
+        <div class="col hide-on-med-and-down l3 output-approval border-branded-blue">
             <h6 class="center branded-blue text-white">APPROVAL</h6>
-            
-            {% if not health_and_safety.feedback or health_and_safety.feedback == None or not quality.feedback or quality.feedback == None %}
-            <div class="card-panel center">
-                <span class="blue-text text-darken-2">No Details</span>
-            </div>
 
-            {% else %}
-            <table class="centered branded-table highlight">
+            <table class="branded-table approval highlight">
                 <tbody>
                     <tr>
-                        <td>{{ health_and_safety.feedback }}</td>
-                        <td>{{ health_and_safety.approval }}</td>
+                        {% if not health_and_safety.feedback or health_and_safety.feedback == None %}
+                            <td colspan="2">
+                                <p><b>Health & Safety: </b>No Details</p>
+                            </td>
+                        {% else %}
+                            <td>
+                                <p><b>Health & Safety: </b>{{ health_and_safety.feedback[:100] }}</p>
+                            </td>
+                            <td>
+                            {% if health_and_safety.approval == 3 %}
+                            <img class="product-img" src="{{ url_for('static', filename='media/img/approved.png') }}" alt="Approved">
+                            {% elif health_and_safety.approval == 1 %}
+                            <img class="product-img" src="{{ url_for('static', filename='media/img/rejected.png') }}" alt="Rejected">
+                            {% else %}<p>N/A</p>{% endif %}
+                            </td>
+                        {% endif %}
                     </tr>
                     <tr>
-                    </tr>
-                        <td>{{ quality.feedback }}</td>
-                        <td>{{ quality.approval }}</td>
+                        {% if not quality.feedback or quality.feedback == None %}
+                            <td colspan="2">
+                                <p><b>Quality: </b>No Details</p>
+                            </td>
+                        {% else %}
+                            <td>
+                                <p><b>Quality: </b>{{ quality.feedback[:100] }}</p>
+                            </td>
+                            <td>
+                            {% if quality.approval == 3 %}
+                            <img class="product-img" src="{{ url_for('static', filename='media/img/approved.png') }}" alt="Approved">
+                            {% elif quality.approval == 1 %}
+                            <img class="product-img" src="{{ url_for('static', filename='media/img/rejected.png') }}" alt="Rejected">
+                            {% else %}<p>N/A</p>{% endif %}
+                            </td>
+                        {% endif %}
                     </tr>
                 </tbody>
             </table>
-            {% endif %}
         </div>
-        <div class="col s3 center">
+
+        <div class="col hide-on-med-and-down l3 center output-image border-branded-blue">
+            <h6 class="center branded-blue text-white">Pallet Visual</h6>
 
             {% if not quality.image or quality.image == "" %}
             <div class="card-panel center">
                 <span class="blue-text text-darken-2">No Image Uploaded</span>
             </div>
             {% else%}
-            <img class="responsive-img output-image" src="{{ url_for('static', filename=quality.image) }}" alt="{{ url_for('static', filename=quality.image) }}">
+            <img class="responsive-img" src="{{ url_for('static', filename=quality.image) }}" alt="{{ url_for('static', filename=quality.image) }}">
             {% endif %}
         </div>
-        <div class="col s3 center">
+
+        <div class="col hide-on-med-and-down l3 center output-image border-branded-blue">
+            <h6 class="center branded-blue text-white">Cagefill Visual</h6>
 
             {% if not cagefill.image or cagefill.image == "" %}
             <div class="card-panel center">
                 <span class="blue-text text-darken-2">No Image Uploaded</span>
             </div>
             {% else%}
-            <img class="responsive-img output-image" src="{{ url_for('static', filename=cagefill.image) }}" alt="{{ url_for('static', filename=cagefill.image) }}">
+            <img class="responsive-img" src="{{ url_for('static', filename=cagefill.image) }}" alt="{{ url_for('static', filename=cagefill.image) }}">
             {% endif %}
         </div>
-        <div class="col s3 center">
+
+        <div class="col hide-on-med-and-down l3 center output-image border-branded-blue">
+            <h6 class="center branded-blue text-white">Restaurant Visual</h6>
 
             {% if not restaurant_impact.image or restaurant_impact.image == "" %}
             <div class="card-panel center">
                 <span class="blue-text text-darken-2">No Image Uploaded</span>
             </div>
             {% else%}
-            <img class="responsive-img output-image" src="{{ url_for('static', filename=restaurant_impact.image) }}" alt="{{ url_for('static', filename=restaurant_impact.image) }}">
+            <img class="responsive-img" src="{{ url_for('static', filename=restaurant_impact.image) }}" alt="{{ url_for('static', filename=restaurant_impact.image) }}">
             {% endif %}
         </div>
     </div>

@@ -49,11 +49,16 @@
                     <label for="product_name">Name</label>
                 </div>
                 <div class="input-field col s12 l6">
-                    <select id="product_type_id" name="product_type_id" required>
+                    <select id="product_type" name="product_type" required>
                         <option value="" disabled selected>Select Product Type</option>
-                        {% for product_type in product_types %}
-                        <option value="{{ product_type.id }}">{{ product_type.type }}</option>
-                        {% endfor %}
+                        <option value="frz_dess">Frozen Dessert</option>
+                        <option value="frz_meat">Frozen Meat</option>
+                        <option value="frz_side">Frozen Side</option>
+                        <option value="chi_bev">Chilled Beverages</option>
+                        <option value="chi_dair">Chilled Dairy</option>
+                        <option value="chi_ssl">Chilled Short Shelf Life</option>
+                        <option value="dry_food">Dry Food</option>
+                        <option value="dry_pack">Dry Packaging</option>
                     </select>
                     <label>Product Type</label>
                 </div>
@@ -66,7 +71,7 @@
                     </p>
                 </div>
             </div>
-            <div id="existing_product" class="row existing-product">
+            <div id="existing_product" class="row">
                 <h6 class="center">Existing Details</h6>
                 <div class="input-field col s12 l6">
                     <input class="existing_detail" id="ex_product_length" name="ex_product_length" type="number" class="validate" required>
@@ -101,7 +106,7 @@
                     </p>
                 </div>
             </div>
-            <div class="row new-product">
+            <div class="row">
                 <h6 class="center">Proposed Details</h6>
                 <div class="input-field col s12 l6">
                     <input id="product_length" name="product_length" type="number" min="0" class="validate" required>

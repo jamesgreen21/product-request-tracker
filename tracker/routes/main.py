@@ -3,13 +3,13 @@ from flask_login import current_user, login_required
 from datetime import datetime
 
 from tracker.extensions import db
-from tracker.models import User, Posts, Suppliers, ProductType, Actions
+from tracker.models import User, Posts, Suppliers, Actions
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    posts = Posts.query.order_by(Posts.date_posted.desc()).all()
+    posts = Posts.query.filter(Posts.complete == False).order_by(Posts.date_posted.desc()).all()
 
     context = {
         'posts': posts,
@@ -20,6 +20,19 @@ def index():
     return render_template('index.html', **context)
 
 
+@main.route('/archives')
+def archives():
+    posts = Posts.query.filter(Posts.complete == True).order_by(Posts.date_posted.desc()).all()
+
+    context = {
+        'posts': posts,
+    }
+    if not posts:
+        flash("There are no archived Requests!", 'information')
+
+    return render_template('archives.html', **context)
+
+
 @main.route('/new', methods=['GET', 'POST'])
 @login_required
 def add_request():
@@ -27,6 +40,8 @@ def add_request():
 
         new_request = request.form.to_dict()
         new_request["user_id"] = current_user.id
+        product_type = request.form["product_type"]
+        new_request["product_type"] = "media/img/{}.jpg".format(product_type)
 
         try:
             new = new_request["new_product"]
@@ -42,12 +57,10 @@ def add_request():
         flash('New request added!', 'success')
         return redirect(url_for('main.index'))
 
-    product_types = ProductType.query.all()
     suppliers = Suppliers.query.filter(Suppliers.display == True).all()
 
     context = {
         'suppliers': suppliers,
-        'product_types': product_types,
     }
     return render_template('request_add.html', **context)
 
@@ -64,7 +77,8 @@ def edit_request(post_id):
         post.contact_name = request.form["contact_name"]
         post.product_number = request.form["product_number"]
         post.product_name = request.form["product_name"]
-        post.product_type_id = request.form["product_type_id"]
+        product_type = request.form["product_type"]
+        post.product_type = "media/img/{}.jpg".format(product_type)
 
         post.product_length = request.form["product_length"]
         post.product_width = request.form["product_width"]
@@ -106,12 +120,10 @@ def edit_request(post_id):
         flash('The request has been editted.', 'success')
         return redirect(url_for('main.index'))
 
-    product_types = ProductType.query.all()
     suppliers = Suppliers.query.filter(Suppliers.display == True).all()
 
     context = {
         'suppliers': suppliers,
-        'product_types': product_types,
         'post': post
     }
     return render_template('request_edit.html', **context)
@@ -148,7 +160,7 @@ def complete_request(post_id, status):
         flash("Please complete Quality for {}.".format(post.title), 'error')
         return redirect(url_for('main.index'))
     elif post.cagefill in (0, 2):
-        flash("Please complete Cagefill for {}.".format(post.title), 'error')
+        flash("Please complete Cage Fill for {}.".format(post.title), 'error')
         return redirect(url_for('main.index'))
     elif post.restaurantimpact in (0, 2):
         flash("Please complete Restaurant Impact for {}.".format(post.title), 'error')
@@ -159,3 +171,31 @@ def complete_request(post_id, status):
 
     flash('Request Status updated to {}'.format(post.status), 'success')
     return redirect(url_for('main.index'))
+
+
+@main.route('/archive/<int:post_id>')
+@login_required
+def archive_request(post_id):
+
+    post = Posts.query.get_or_404(post_id)
+    if post.status == None:
+        flash("Please ensure the Request is complete", 'error')
+        return redirect(url_for('main.index'))
+
+    post.complete = True
+    db.session.commit()
+
+    flash('Request {} has been moved to the Archives'.format(post.title), 'success')
+    return redirect(url_for('main.index'))
+
+
+@main.route('/unarchive/<int:post_id>')
+@login_required
+def unarchive_request(post_id):
+
+    post = Posts.query.get_or_404(post_id)
+    post.complete = False
+    db.session.commit()
+
+    flash('Request {} has been moved back to the Tracker'.format(post.title), 'success')
+    return redirect(url_for('main.archives'))

@@ -52,16 +52,15 @@
                 <label for="product_name">Name</label>
             </div>
             <div class="input-field col s12 l6">
-                <select id="product_type_id" name="product_type_id" value="{{ post.product_type_id }}" required>
-                        <option value="" disabled>Select Product Type</option>
-                        {% for product_type in product_types %}
-                        {% if product_type.id == post.product_type_id %}
-                            <option value="{{ product_type.id }}" selected>{{ product_type.type }}</option>
-                        {% else %}
-                            <option value="{{ product_type.id }}">{{ product_type.type }}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
+                <select id="product_type" name="product_type" value="{{ post.product_type }}" required>
+                    {% if post.product_type == "media/img/frz_meat.jpg" %}<option value="frz_meat" selected>Frozen Meat</option>{% else %}<option value="frz_meat">Frozen Meat</option>{% endif %}
+                    {% if post.product_type == "media/img/frz_side.jpg" %}<option value="frz_side" selected>Frozen Side</option>{% else %}<option value="frz_side">Frozen Side</option>{% endif %}
+                    {% if post.product_type == "media/img/chi_bev.jpg" %}<option value="chi_bev" selected>Chilled Beverages</option>{% else %}<option value="chi_bev">Chilled Beverages</option>{% endif %}
+                    {% if post.product_type == "media/img/chi_dair.jpg" %}<option value="chi_dair" selected>Chilled Dairy</option>{% else %}<option value="chi_dair">Chilled Dairy</option>{% endif %}
+                    {% if post.product_type == "media/img/chi_ssl.jpg" %}<option value="chi_ssl" selected>Chilled Short Shelf Life</option>{% else %}<option value="chi_ssl">Chilled Short Shelf Life</option>{% endif %}
+                    {% if post.product_type == "media/img/dry_food.jpg" %}<option value="dry_food" selected>Dry Food</option>{% else %}<option value="dry_food">Dry Food</option>{% endif %}
+                    {% if post.product_type == "media/img/dry_pack.jpg" %}<option value="dry_pack" selected>Dry Packaging</option>{% else %}<option value="dry_pack">Dry Packaging</option>{% endif %}
+                </select>
                 <label>Product Type</label>
             </div>
             <div class="input-field col s12 l6">
