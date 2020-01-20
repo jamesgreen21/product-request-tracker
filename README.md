@@ -2,6 +2,10 @@
 
 The Product Request Tracker is a Python Flask application used to track all new product requests and change product requests within a Supply Chain. This particular version is for Martin Brower UK Ltd, but can be adapted for other companies.
 
+The wireframes are available within the "wireframe" folder of the code.
+
+There is a user guide under Testing within this README that will walk you through the App and demonstrate the tests carried out.
+
 #### Process Flow
 
 Create New/Change Product Request >>> Create Actions >>> Action Approval >>> Completion and Output Form
@@ -97,7 +101,7 @@ The Navbar contains 6 links:
  - ARCHIVE – takes you to the ARCHIVE page which holds all completed requests
  - AUTHENTICATION – Log-in, log-out and register users
 
-### How to Guid
+### How to Guide
 
 1.	Welcome to the PRODUCT REQUEST APP. Let’s start by creating a new user. Click LOGIN/REGISTER on the Navbar and select LOGIN
 2.	Whoops, we need a user, so at the bottom, select to SIGN UP NOW
