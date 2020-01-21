@@ -13,11 +13,10 @@
 {% if current_user.user_type in (1,2,3,4) %}
 
 <!-- Action Users -->
-<a id="action-toggle" class="btn-floating btn-large tooltipped" data-position="left" data-tooltip="Toggle Complete Actions" href="#">
 <div class="container-fluid">
     {% for action in actions %}
-    <div class="row">
 
+    <div class="row branded-blue text-white valign-wrapper">
         <div class="col hide-on-small-and-down m2">
             {% if action.stage == 1 %}
             <p><i class="material-icons">add_box</i>Health & Safety</p>
@@ -59,6 +58,7 @@
         </div>
 
     </div>
+
     {% endfor %}
 </div>
 

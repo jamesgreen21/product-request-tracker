@@ -6,7 +6,9 @@ import os
 from tracker.extensions import db
 from tracker.models import Suppliers
 
+
 supplier = Blueprint('supplier', __name__)
+
 
 @supplier.route('/suppliers', methods=['GET', 'POST'])
 def suppliers():
@@ -31,7 +33,8 @@ def supplier_add():
     return render_template('supplier_add.html')
 
 
-@supplier.route('/suppliers/edit/<int:supplier_id>', methods=['GET', 'POST'])
+@supplier.route('/suppliers/edit/<int:supplier_id>', methods=['GET',
+                'POST'])
 @login_required
 def supplier_edit(supplier_id):
     supplier = Suppliers.query.get_or_404(supplier_id)

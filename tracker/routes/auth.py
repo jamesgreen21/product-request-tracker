@@ -5,7 +5,9 @@ from werkzeug.security import check_password_hash
 from tracker.extensions import db
 from tracker.models import User
 
+
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -16,10 +18,11 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if not user or not check_password_hash(user.password, password):
-            flash('The username or password entered is incorrect!', 'error')
+            flash('The username or password entered is incorrect!',
+                  'error')
             return redirect(url_for('auth.login'))
-            
         else:
+
             login_user(user)
             return redirect(url_for('main.index'))
 
@@ -33,11 +36,10 @@ def register():
         unhashed_password = request.form['password']
         user_type = request.form['user_type']
 
-        user = User(
-            username=username,
-            unhashed_password=unhashed_password,
-            admin = True if int(user_type) == 1 else False,
-            user_type=int(user_type))
+        user = User(username=username,
+                    unhashed_password=unhashed_password,
+                    admin=(True if int(user_type) == 1 else False),
+                    user_type=int(user_type))
 
         db.session.add(user)
         db.session.commit()
@@ -47,7 +49,7 @@ def register():
     return render_template('register.html')
 
 
-@auth.route("/logout")
+@auth.route('/logout')
 def logout():
     logout_user()
     flash('You have successfully been logged out', 'success')
