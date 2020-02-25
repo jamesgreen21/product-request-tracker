@@ -174,7 +174,7 @@ Note: The "mccain_fries_pallet_visual.PNG" can be found in the repo within "trac
  - Username: HS_User
  - Password: Qwerty123
 
-24.	Now you are logged in as a Health & Safety Team user, you will notice the Navbar has less options (no NEW link)
+24.	Now you are logged in as a Health & Safety Team user, you will notice the Action button has less options as only the Product Request Team users have full access here.
 25.	Click on the ACTION button for the Request you created. Here you will also see a difference as this user has limited access.
 26.	Now let’s approve the action we raised earlier – select GO TO ACTION. Alternatively, you can go to ACTIONS on the Navbar and filter the completed 
 27.	Now select APPROVE and type in comments “Test”. Then SUBMIT
