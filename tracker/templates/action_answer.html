@@ -86,15 +86,7 @@
             </table>
         </div>
         <div class="col s12 l6 action-container">
-            {% if action.stage == 1 %}
             <img class="materialboxed responsive-img" src="{{ url_for('static', filename='testing/sample1.png') }}" alt="{{ url_for('static', filename='testing/sample1.png') }}">
-            {% elif action.stage == 2 %}
-            <img class="materialboxed responsive-img" src="{{ url_for('static', filename='testing/sample2.png') }}" alt="{{ url_for('static', filename='testing/sample2.png') }}">
-            {% elif action.stage == 3 %}
-            <img class="materialboxed responsive-img" src="{{ url_for('static', filename='testing/sample3.png') }}" alt="{{ url_for('static', filename='testing/sample3.png') }}">
-            {% elif action.stage == 4 %}
-            <img class="materialboxed responsive-img" src="{{ url_for('static', filename='testing/sample4.png') }}" alt="{{ url_for('static', filename='testing/sample4.png') }}">
-            {% endif %}
         </div>
     </div>
     {% else %}
