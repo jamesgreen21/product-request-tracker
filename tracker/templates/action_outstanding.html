@@ -67,7 +67,7 @@
 {% else %}
 
 <div class="container-fluid">
-    {% for action in actions %} {% if action.approval == None %}
+    {% for action in actions %} {% if action.approval == 0 %}
 
     <div class="row branded-blue text-white valign-wrapper">
         <div class="col hide-on-small-and-down m2">
@@ -210,6 +210,7 @@
     </div>
 
 </div>
+
 {% endblock content %}{% block script %}
 
 <script type="text/javascript">

@@ -53,8 +53,11 @@ class Posts(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False,
-        default=datetime.utcnow)
+    date_posted = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.Text, nullable=True)
     supplier_id = db.Column(db.Integer, db.ForeignKey('suppliers.id'),
@@ -106,10 +109,16 @@ class Actions(db.Model):
         nullable=False)
     stage = db.Column(db.Integer)
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
-    created_on = db.Column(db.DateTime, nullable=False,
-        default=datetime.utcnow)
+    created_on = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
     content = db.Column(db.Text, nullable=True)
-    image = db.Column(db.String(80), nullable=True)
+    image = db.Column(
+        db.String(80),
+        nullable=True,
+    )
     layer_type = db.Column(db.String(50), nullable=True)
     case_per_layer = db.Column(db.Integer, default=0)
     total_layers = db.Column(db.Integer, default=0)
@@ -118,7 +127,11 @@ class Actions(db.Model):
     ex_case_per_layer = db.Column(db.Integer, default=0)
     ex_total_layers = db.Column(db.Integer, default=0)
     ex_total_cases = db.Column(db.Integer, default=0)
-    approval = db.Column(db.Integer, nullable=True)
+    approval = db.Column(db.Integer, default=0)
     approved_by = db.Column(db.Integer, db.ForeignKey('user.id'))
-    approved_on = db.Column(db.DateTime, nullable=True)
+    approved_on = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
     feedback = db.Column(db.Text, nullable=True)
