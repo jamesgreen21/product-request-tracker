@@ -15,7 +15,6 @@ def index():
     The Home page of the Application with all live Posts
     """
     posts = Posts.query.filter(Posts.complete == False).order_by(Posts.date_posted.desc()).all()
-
     context = {'posts': posts}
     if not posts:
         flash('There are no outstanding Requests!', 'information')
@@ -94,7 +93,8 @@ def add_request():
 def edit_request(post_id):
     """
     Edit an existing request in the Posts table
-    """    post = Posts.query.get_or_404(post_id)
+    """
+    post = Posts.query.get_or_404(post_id)
     if request.method == 'POST':
 
         post.title = request.form['title']
