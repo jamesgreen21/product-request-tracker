@@ -14,7 +14,6 @@ def create_app(config_file='settings.py'):
     app.config.from_pyfile(config_file)
 
     db.init_app(app)
-
     login_manager.init_app(app)
 
     login_manager.login_view = 'auth.login'

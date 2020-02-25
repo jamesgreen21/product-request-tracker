@@ -2,27 +2,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 from datetime import datetime
 import os
-from werkzeug.utils import secure_filename
 
 from tracker.extensions import db
 from tracker.models import User, Posts, Suppliers, Actions
 
 action = Blueprint('action', __name__)
-IMAGE_UPLOADS = '/home/ubuntu/environment/tracker/static/uploads/img'
-ALLOWED_IMAGE_EXTENSIONS = ['PNG', 'JPG', 'JEPG']
-
-
-def allowed_image(filename):
-
-    if '.' not in filename:
-        return False
-
-    ext = filename.rsplit('.', 1)[1]
-
-    if ext.upper() in ALLOWED_IMAGE_EXTENSIONS:
-        return True
-    else:
-        return False
 
 
 @action.route('/action/add/<int:post_id>', methods=['GET', 'POST'])
@@ -32,26 +16,6 @@ def action_add(post_id):
     if request.method == 'POST':
 
         new_action = request.form.to_dict()
-        if request.files['image_file']:
-
-            image_file = request.files['image_file']
-
-            if image_file.filename == '':
-                flash('Please ensure the image has a filename!', 'error'
-                      )
-                return redirect(url_for('action.action_add',
-                                post_id=post.id))
-
-            if allowed_image(image_file.filename):
-                filename = secure_filename(image_file.filename)
-                image_file.save(os.path.join(IMAGE_UPLOADS, filename))
-                new_action['image'] = 'uploads/img/' + filename
-            else:
-
-                flash('That image extension is not allowed!', 'error')
-                return redirect(url_for('action.action_add',
-                                post_id=post.id))
-
         new_action['created_by'] = current_user.id
         new_action['posts_id'] = post.id
 
@@ -83,26 +47,6 @@ def action_edit(action_id):
         action.ex_total_layers = request.form['ex_total_layers']
         action.total_cases = request.form['total_cases']
         action.ex_total_cases = request.form['ex_total_cases']
-
-        if request.files['image_file']:
-
-            image_file = request.files['image_file']
-
-            if image_file.filename == '':
-                flash('Please ensure the image has a filename!', 'error'
-                      )
-                return redirect(url_for('action.action_edit',
-                                action_id=action.id))
-
-            if allowed_image(image_file.filename):
-                filename = secure_filename(image_file.filename)
-                image_file.save(os.path.join(IMAGE_UPLOADS, filename))
-                action.image = 'uploads/img/' + filename
-            else:
-
-                flash('That image extension is not allowed!', 'error')
-                return redirect(url_for('action.action_edit',
-                                action_id=action.id))
 
         db.session.commit()
         flash('Action updated for {}.'.format(action.action_post.title),
@@ -162,7 +106,6 @@ def action_answer(action_id):
         action.feedback = request.form['feedback']
         action.approval = request.form['approval']
         action.approved_by = current_user.id
-        action.approved_on = datetime.utcnow()
 
         post = Posts.query.get_or_404(action.posts_id)
         if action.stage == 1:
