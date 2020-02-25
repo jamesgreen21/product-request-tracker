@@ -78,6 +78,10 @@ Finally, go into the Heroku Console and enter the following to create the DB tab
 flask create_tables
 ```
 
+#### File Uploads
+
+Please be aware that the App does not currently allow for file uploads. This will be made avaialble in a later release as AWS S3 is required in order to store said files.
+
 ## Compatibility
 
 The following browsers have been tested for compatibility with this app:
