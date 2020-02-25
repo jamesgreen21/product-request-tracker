@@ -139,10 +139,12 @@
                 $(".existing-product-config").hide();
                 $(".pallet-type").hide();
 
-                $('#layer_type').val(0).prop('required', false);
+                $('#ex_case_per_layer').val(0).prop('required', false);
+                $('#ex_total_layers').val(0).prop('required', false);
+                $('#ex_total_cases').val(0).prop('required', false);
                 $('#case_per_layer').val(0).prop('required', false);
                 $('#total_layers').val(0).prop('required', false);
-                $('#ex_layer_type').val(0).prop('required', false);
+                $('#total_cases').val(0).prop('required', false);
             }
 
             // Select option update for Quality
@@ -153,32 +155,29 @@
 
                 $('#layer_type').val('').prop('required', true);
                 $('#ex_layer_type').val('').prop('required', true);
-                $('#case_per_layer').prop('required', true);
-                $('#total_layers').prop('required', true);
+                $('#ex_case_per_layer').val('').prop('required', true);
+                $('#ex_total_layers').val('').prop('required', true);
+                $('#ex_total_cases').val('').prop('required', true);
+                $('#case_per_layer').val('').prop('required', true);
+                $('#total_layers').val('').prop('required', true);
+                $('#total_cases').val('').prop('required', true);
             }
 
-            // Select option update for Cagefill
-            else if (selected_option == 3) {
+            // Select option update for Cagefill & Restaurant Impact
+            else {
                 $(".product-config").show();
                 $(".existing-product-config").show();
                 $(".pallet-type").hide();
 
                 $('#layer_type').val('').prop('required', false);
                 $('#ex_layer_type').val('').prop('required', false);
-                $('#case_per_layer').prop('required', true);
-                $('#total_layers').prop('required', true);
+                $('#ex_case_per_layer').val('').prop('required', true);
+                $('#ex_total_layers').val('').prop('required', true);
+                $('#ex_total_cases').val('').prop('required', true);
+                $('#case_per_layer').val('').prop('required', true);
+                $('#total_layers').val('').prop('required', true);
+                $('#total_cases').val('').prop('required', true);
 
-            }
-
-            // Select option update for Restaurant Impact
-            else {
-                $(".product-config").show();
-                $(".existing-product-config").show();
-
-                $('#layer_type').val('').prop('required', false);
-                $('#ex_layer_type').val('').prop('required', false);
-                $('#case_per_layer').prop('required', true);
-                $('#total_layers').prop('required', true);
             }
         });
     
