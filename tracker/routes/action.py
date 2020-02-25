@@ -18,6 +18,13 @@ def action_add(post_id):
         new_action = request.form.to_dict()
         new_action['created_by'] = current_user.id
         new_action['posts_id'] = post.id
+        if new_action['stage'] == 1:
+            new_action['case_per_layer'] = 0
+            new_action['total_layers'] = 0
+            new_action['total_cases'] = 0
+            new_action['ex_case_per_layer'] = 0
+            new_action['ex_total_layers'] = 0
+            new_action['ex_total_cases'] = 0
 
         new_action = Actions(**new_action)
         db.session.add(new_action)
