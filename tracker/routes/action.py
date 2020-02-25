@@ -14,7 +14,7 @@ action = Blueprint('action', __name__)
 def action_add(post_id):
     """
     Add an action to the Actions table, linked to the Posts table
-    """    
+    """
     post = Posts.query.get_or_404(post_id)
     if request.method == 'POST':
 
@@ -45,7 +45,7 @@ def action_add(post_id):
 def action_edit(action_id):
     """
     Edit an action to the Actions table, linked to the Posts table
-    """  
+    """
     action = Actions.query.get_or_404(action_id)
     if request.method == 'POST':
 
@@ -76,7 +76,7 @@ def action_outstanding():
     View all actions, filtered to the current user view
     Product Request Tracker user see all
     Other users see action specific to their Stage
-    """  
+    """
     if current_user.user_type == 0:
         actions = \
             Actions.query.order_by(Actions.created_on.desc()).all()
@@ -120,7 +120,7 @@ def action_answer(action_id):
     """
     Allows all Other users (not Product Request tracker users) to answer
     an action created for their associated Stage
-    """  
+    """
     action = Actions.query.get_or_404(action_id)
 
     if request.method == 'POST':
