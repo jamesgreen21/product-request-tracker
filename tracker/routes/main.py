@@ -43,6 +43,7 @@ def add_request():
         new_request['product_type'] = \
             'media/img/{}.jpg'.format(product_type)
 
+        # check new product checkbox
         try:
             new = new_request['new_product']
             new_request['new_product'] = (True if new == 'on'
@@ -50,6 +51,24 @@ def add_request():
             new_request.pop('new_product', None)
         except:
             new_request['new_product'] = False
+
+        # check existing case orientation checkbox
+        try:
+            new = ex_case_orientation['ex_case_orientation']
+            ex_case_orientation['ex_case_orientation'] = (True if new == 'on'
+                     else False)
+            ex_case_orientation.pop('ex_case_orientation', None)
+        except:
+            ex_case_orientation['ex_case_orientation'] = False
+
+        # check new case orientation checkbox
+        try:
+            new = case_orientation['case_orientation']
+            case_orientation['case_orientation'] = (True if new == 'on'
+                     else False)
+            case_orientation.pop('case_orientation', None)
+        except:
+            case_orientation['case_orientation'] = False
 
         new_request = Posts(**new_request)
         db.session.add(new_request)
