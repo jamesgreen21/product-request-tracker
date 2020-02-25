@@ -168,10 +168,12 @@ Note: The "mccain_fries_pallet_visual.PNG" can be found in the repo within "trac
 19.	All changes will gain a confirmation message. Now go back to the HOME PAGE
 20.	Click ACTION on the request you created and click MANAGE. This will allow the Product Request Team users to edit the Request
 21.	Now change the Supplier dropdown to “McCain”. Notice that the changes made in the SUPPLIER PAGE are visible here. 
-22.	Submit the change and now LOGOUT so we can LOGIN as a Health & Safety Team user
+22.	Submit the change and now LOGOUT so we can LOGIN as a Health & Safety Team user*
 23.	Use the credentials:
-Username: HS_User
-Password: Qwerty123
+
+ - Username: HS_User
+ - Password: Qwerty123
+
 24.	Now you are logged in as a Health & Safety Team user, you will notice the Navbar has less options (no NEW link)
 25.	Click on the ACTION button for the Request you created. Here you will also see a difference as this user has limited access.
 26.	Now let’s approve the action we raised earlier – select GO TO ACTION. Alternatively, you can go to ACTIONS on the Navbar and filter the completed 
@@ -190,7 +192,16 @@ Password: Qwerty123
 39.	This will take you into the OUTPUT FORM used to send to the Supplier once the process is complete, giving the feedback of everything that occurd
 40.	Hope you enjoyed the example!
 
-## Acknowledgments
+* Other users for testing all stages:
+
+ - Username: QA_User
+ - Password: Qwerty123
+ - Username: CF_User
+ - Password: Qwerty123
+ - Username: RI_User
+ - Password: Qwerty123
+  
+ ## Acknowledgments
 
 Along with the Flask framework, the following:
 
