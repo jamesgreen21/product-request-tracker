@@ -11,6 +11,9 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
+    """
+    The Home page of the Application with all live Posts
+    """
     posts = Posts.query.filter(Posts.complete == False).order_by(Posts.date_posted.desc()).all()
 
     context = {'posts': posts}
@@ -22,6 +25,9 @@ def index():
 
 @main.route('/archives')
 def archives():
+    """
+    Access the Archives containing archived Posts
+    """
     posts = Posts.query.filter(Posts.complete
                                == True).order_by(Posts.date_posted.desc()).all()
 
@@ -35,6 +41,9 @@ def archives():
 @main.route('/new', methods=['GET', 'POST'])
 @login_required
 def add_request():
+    """
+    Add a new request to the Posts table
+    """
     if request.method == 'POST':
 
         new_request = request.form.to_dict()
@@ -48,27 +57,24 @@ def add_request():
             new = new_request['new_product']
             new_request['new_product'] = (True if new == 'on'
                      else False)
-            new_request.pop('new_product', None)
         except:
             new_request['new_product'] = False
 
         # check existing case orientation checkbox
         try:
-            new = ex_case_orientation['ex_case_orientation']
-            ex_case_orientation['ex_case_orientation'] = (True if new == 'on'
+            new = new_request['ex_case_orientation']
+            new_request['ex_case_orientation'] = (True if new == 'on'
                      else False)
-            ex_case_orientation.pop('ex_case_orientation', None)
         except:
-            ex_case_orientation['ex_case_orientation'] = False
+            new_request['ex_case_orientation'] = False
 
         # check new case orientation checkbox
         try:
-            new = case_orientation['case_orientation']
-            case_orientation['case_orientation'] = (True if new == 'on'
+            new = new_request['case_orientation']
+            new_request['case_orientation'] = (True if new == 'on'
                      else False)
-            case_orientation.pop('case_orientation', None)
         except:
-            case_orientation['case_orientation'] = False
+            new_request['case_orientation'] = False
 
         new_request = Posts(**new_request)
         db.session.add(new_request)
@@ -86,7 +92,9 @@ def add_request():
 @main.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def edit_request(post_id):
-    post = Posts.query.get_or_404(post_id)
+    """
+    Edit an existing request in the Posts table
+    """    post = Posts.query.get_or_404(post_id)
     if request.method == 'POST':
 
         post.title = request.form['title']
@@ -151,6 +159,9 @@ def edit_request(post_id):
 
 @main.route('/outputform/<int:post_id>', methods=['GET', 'POST'])
 def output_form(post_id):
+    """
+    Access to the Output Form page for a chose Post ID
+    """
     post = Posts.query.get_or_404(post_id)
     health_and_safety = Actions.query.filter(Actions.stage == 1,
             Actions.posts_id
@@ -178,7 +189,9 @@ def output_form(post_id):
 @main.route('/complete/<int:post_id>/<status>')
 @login_required
 def complete_request(post_id, status):
-
+    """
+    Mark a Post as complete to finish the NPI request
+    """
     post = Posts.query.get_or_404(post_id)
     if post.healthandsafety in (0, 2):
         flash('Please complete Health and Safety for {}.'.format(post.title),
@@ -207,7 +220,9 @@ def complete_request(post_id, status):
 @main.route('/archive/<int:post_id>')
 @login_required
 def archive_request(post_id):
-
+    """
+    Archive a Post to move it into the Archive page of the App
+    """
     post = Posts.query.get_or_404(post_id)
     if post.status == None:
         flash('Please ensure the Request is complete', 'error')
@@ -224,7 +239,9 @@ def archive_request(post_id):
 @main.route('/unarchive/<int:post_id>')
 @login_required
 def unarchive_request(post_id):
-
+    """
+    Move an archived Post back into the live tracker (Home page)
+    """
     post = Posts.query.get_or_404(post_id)
     post.complete = False
     db.session.commit()
